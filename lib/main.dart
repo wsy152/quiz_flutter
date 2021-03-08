@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_flutter/questoes.dart';
+import 'package:quiz_flutter/resposta.dart';
 
 main() => runApp(PerguntaApp());
 
@@ -20,41 +22,36 @@ class _PerguntaAppState extends State<PerguntaApp> {
 
   @override
   Widget build(context) {
-    final perguntas = [
-      'Qual é a sua altura',
-      'Qual o dia do seu aniversário',
-      'Qual o dia do sua musica preferida',
+    final List<Map<String, Object>> perguntas = [
+      {
+        'texto': 'Qual é a sua altura',
+        'resposta': ['1.8', '1.9', '2.0', '2.2'],
+      },
+      {
+        'texto': 'Qual o dia do seu aniversário',
+        'resposta': ['20', '21', '30', '2'],
+      },
+      {
+        'texto': 'Qual sua sobremesa preferida',
+        'resposta': ['bolo', 'torta', 'bala', 'cocada'],
+      }
     ];
+
+    List<Widget> respostas = [];
+
+    for (String textoResp in perguntas[perguntaSelecionada]['resposta']) {
+      respostas.add(Resposta(texto: textoResp, onClickBotao: _response));
+    }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text(perguntas.elementAt(perguntaSelecionada)),
+          title: Text('Peguntas'),
         ),
         body: Column(
           children: [
-            Text(perguntas.elementAt(perguntaSelecionada)),
-            SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: _response,
-              child: Text('Resposta 1'),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: _response,
-              child: Text('Resposta 2'),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: _response,
-              child: Text(perguntas.elementAt(perguntaSelecionada)),
-            ),
+            Questao(texto: perguntas[perguntaSelecionada]['texto']),
+            ...respostas
           ],
         ),
       ),
